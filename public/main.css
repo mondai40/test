@@ -60,3 +60,7 @@ footer {
     font-size: .9rem;
     color: #777;
 }
+.article-control {
+    display: flex;
+    justify-content: space-between;
+}
