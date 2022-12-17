@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,7 @@ use App\Http\Controllers\ArticleController;
 */
 
 Route::get('/', function () {
-    return view('hello');
+    return view('welcome');
 });
 // Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 // Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
@@ -24,4 +25,8 @@ Route::get('/', function () {
 // Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
 // Route::patch('/articles/{article}', [ArticleController::class, 'update'])->name('articles.update');
 // Route::delete('/articles/{article}', [ArticleController::class, 'destroy'])->name('articles.destroy');
-Route::resource('/articles', ArticleController::class);
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('/articles', ArticleController::class);
+});
