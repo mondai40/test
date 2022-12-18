@@ -15,7 +15,7 @@ class ArticleController extends Controller
     public function index()
     {
         //
-        $articles = Article::all();
+        $articles = Article::orderBy('created_at', 'desc')->paginate(1);
         $data = ['articles' => $articles];
         return view('articles.index', $data);
     }
@@ -112,5 +112,14 @@ class ArticleController extends Controller
         $this->authorize($article);
         $article->delete();
         return redirect(route('articles.index'));
+    }
+
+    public function bookmark_articles()
+    {
+        $articles = \Auth::user()->bookmark_articles()->orderBy('created_at', 'desc')->paginate(10);
+        $data = [
+            'articles' => $articles,
+        ];
+        return view('articles.bookmarks', $data);
     }
 }
